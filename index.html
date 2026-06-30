@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Dynamic Realities Studio</title>
+    <title>FUSION KITCHEN 😜 </title>
     <style>
         :root {
             --bg-dark: #07020b;
@@ -17,7 +17,6 @@
             --key-accent-glow: rgba(0, 243, 255, 0.5);
             --panel-border: var(--neon-purple);
             
-            /* Xylophone Structural Variables */
             --key-border-radius: 8px;
             --key-skew: 0deg;
             --key-border: 2px solid rgba(255,255,255,0.3);
@@ -50,6 +49,8 @@
             backdrop-filter: blur(15px);
             box-shadow: 5px 0 30px rgba(157, 0, 255, 0.1);
             transition: 0.5s;
+            overflow-y: auto;
+            max-height: calc(100vh - 180px);
         }
 
         .main-stage {
@@ -58,8 +59,8 @@
             padding: 40px 20px;
         }
 
-        h1 { text-shadow: 0 0 10px var(--neon-blue); font-size: 1.8rem; margin: 0 0 5px 0; text-transform: uppercase;}
-        h2 { color: var(--neon-pink); font-size: 1.1rem; text-transform: uppercase; border-bottom: 1px solid var(--neon-pink); padding-bottom: 5px; margin-top: 20px;}
+        h1 { text-shadow: 0 0 10px var(--neon-blue); font-size: 1.6rem; margin: 0 0 5px 0; text-transform: uppercase;}
+        h2 { color: var(--neon-pink); font-size: 1.0rem; text-transform: uppercase; border-bottom: 1px solid var(--neon-pink); padding-bottom: 5px; margin-top: 20px;}
         
         .btn {
             background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue);
@@ -79,7 +80,6 @@
             100% { box-shadow: 0 0 25px var(--neon-pink); } 
         }
 
-        /* Dropdown style selector */
         .select-style {
             background: #000; color: var(--neon-blue); border: 1px solid var(--neon-blue);
             padding: 8px; width: 100%; font-weight: bold; margin-bottom: 15px; outline: none;
@@ -87,17 +87,40 @@
 
         #recording-log {
             background: rgba(0,0,0,0.5); border: 1px solid #333;
-            max-height: 120px; overflow-y: auto; padding: 5px; font-size: 0.75rem; color: #aaa;
+            max-height: 100px; overflow-y: auto; padding: 5px; font-size: 0.75rem; color: #aaa;
         }
         .log-item { padding: 3px 0; border-bottom: 1px dashed #222; }
 
         #current-recipe-display {
             background: rgba(0,0,0,0.8); border: 2px dashed var(--neon-yellow);
-            padding: 20px; width: 85%; max-width: 800px; min-height: 100px;
-            border-radius: 10px; margin-bottom: 40px; font-size: 1.2rem;
+            padding: 20px; width: 85%; max-width: 800px; min-height: 90px;
+            border-radius: 10px; margin-bottom: 30px; font-size: 1.1rem;
             line-height: 1.6; text-align: center; color: var(--neon-yellow);
             transition: 0.5s;
+            position: relative;
         }
+
+        #challenge-box {
+            background: rgba(255, 0, 124, 0.15); border: 2px solid var(--neon-pink);
+            padding: 12px; border-radius: 6px; margin-bottom: 15px; text-align: center;
+        }
+
+        #recipe-preview-container {
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(0, 0, 0, 0.6); border: 1px solid var(--panel-border);
+            border-radius: 8px; padding: 15px; margin-bottom: 20px;
+        }
+
+        #recipe-canvas {
+            background: #000; border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue); border-radius: 4px; margin-top: 10px;
+        }
+
+        .control-row {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; margin-bottom: 10px; color: #ccc;
+        }
+        .control-row input[type="range"] { flex-grow: 1; margin-left: 10px; accent-color: var(--neon-blue); }
 
         .instrument-rack { display: flex; gap: 15px; align-items: flex-end; height: 250px; }
 
@@ -105,11 +128,8 @@
             width: 65px; cursor: pointer; position: relative;
             box-shadow: 0 5px 20px rgba(0,0,0,0.6);
             transition: 0.1s transform, 0.1s filter, 0.4s border-radius, 0.4s transform, 0.4s background-color; 
-            filter: grayscale(0.2);
-            
-            border-radius: var(--key-border-radius);
-            transform: skewX(var(--key-skew));
-            border: var(--key-border);
+            filter: grayscale(0.2); border-radius: var(--key-border-radius);
+            transform: skewX(var(--key-skew)); border: var(--key-border);
         }
         .key.hit { 
             transform: scale(0.9) translateY(15px) skewX(var(--key-skew)); filter: brightness(1.8) saturate(2) grayscale(0); 
@@ -123,8 +143,7 @@
         .sequencer-panel {
             height: 180px; background: var(--panel-bg); border-top: 2px solid var(--neon-blue);
             z-index: 10; padding: 10px 30px; display: flex; flex-direction: column; justify-content: center;
-            margin-top: auto;
-            transition: 0.5s;
+            margin-top: auto; transition: 0.5s;
         }
         .seq-row { display: flex; align-items: center; margin-bottom: 8px; }
         .seq-label { width: 100px; font-weight: bold; color: var(--neon-blue); font-size: 0.9rem; }
@@ -136,10 +155,10 @@
         .step.playing { filter: brightness(2.5); transform: scale(1.1); }
         
         .seq-controls { display: flex; gap: 15px; margin-bottom: 10px; align-items: center; }
-        .bpm-input { width: 60px; background: #000; color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 5px; text-align: center; }
+        .bpm-input { width: 60px; background: #242222be; color: var(--neon-blue); border: 1px solid var(--neon-blue); padding: 5px; text-align: center; }
 
         .guide-overlay {
-            position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85);
+            position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(167, 86, 86, 0.705);
             z-index: 1000; display: flex; align-items: center; justify-content: center;
             backdrop-filter: blur(5px); transition: 0.3s ease;
         }
@@ -148,7 +167,7 @@
             padding: 30px; border-radius: 12px; box-shadow: 0 0 40px var(--neon-blue); text-align: center;
         }
         .guide-modal h3 { font-size: 1.8rem; margin: 0 0 15px 0; color: var(--neon-yellow); text-shadow: 0 0 5px var(--neon-yellow); }
-        .guide-modal p { line-height: 1.6; color: #ddd; font-size: 0.95rem; margin-bottom: 20px;}
+        .guide-modal p { line-height: 1.6; color: #df1081dc; font-size: 0.95rem; margin-bottom: 20px;}
         .guide-highlight { color: var(--neon-pink); font-weight: bold; }
     </style>
 </head>
@@ -156,11 +175,11 @@
 
     <div class="guide-overlay" id="welcome-guide">
         <div class="guide-modal">
-            <h3>Welcome Studio Chef! 🍳</h3>
-            <p>Welcome to the ultimate custom instrument sandbox.</p>
-            <p>🎵 <span class="guide-highlight">Keyboard Rule:</span> Play everything effortlessly with top row <span class="guide-highlight">Number Keys (1-8)</span>!</p>
-            <p>🌌 <span class="guide-highlight">Dynamic Designs:</span> Swap the "Xylophone Dimension" dropdown menu to shift between Retro Neon, Hyperspace Voyage, and Diamond Prism environmental aesthetics!</p>
-            <button class="btn" style="border-color:var(--neon-green); color:var(--neon-green); text-shadow:0 0 5px var(--neon-green);" onclick="closeGuide()">Enter Dimension</button>
+            <h3>Welcome Fushion Kitchen! </h3>
+            <p> <span class="guide-highlight">Keyboard Rule:</span> Play everything effortlessly with top row <span class="guide-highlight">Number Keys (1-8)</span>!</p>
+            <p> <span class="guide-highlight">Arcade Mode:</span> Complete the recipe challenge targets to unlock full-screen particle explosions!</p>
+            <p> <span class="guide-highlight">Secret:</span> Try typing a certain famous 10-button video game code...</p>
+            <button class="btn" style="border-color:var(--neon-green); color:var(--neon-green);" onclick="closeGuide()">🌏Enter My world🌏</button>
         </div>
     </div>
 
@@ -168,47 +187,74 @@
 
     <div class="top-section">
         <aside class="sidebar" id="sidebar-panel">
-            <h1>Studio Engine</h1>
-            <div style="color: #668; margin-bottom: 15px; font-size: 0.75rem;">V7.2 Reality Swapper</div>
+            <h1>Great Studio</h1>
+            <div style="color: rgb(160, 2, 192); margin-bottom: 15px; font-size: 0.75rem;"></div>
             
-            <div style="background: rgba(255, 238, 0, 0.1); border: 1px solid var(--neon-yellow); padding: 8px; font-size: 0.75rem; color: var(--neon-yellow); text-align: center; border-radius: 4px; margin-bottom: 15px;">
-                ⌨️ Keys 1-8 active!
+            <h2> Challenge if you can beat </h2>
+            <div id="challenge-box">
+                <div style="font-size: 0.7rem; color: #aa0da2; text-transform: uppercase;">Current Target Order</div>
+                <div id="challenge-target" style="font-weight: bold; color: var(--neon-yellow); margin: 5px 0; font-size: 0.9rem;">Loading...</div>
+                <div id="challenge-status" style="font-size: 0.75rem; color: var(--neon-green);">Progress: 0%</div>
             </div>
 
-            <h2>Xylophone Dimension</h2>
+            <h2> Mini Recipe Hologram</h2>
+            <div id="recipe-preview-container">
+                <canvas id="recipe-canvas" width="120" height="120"></canvas>
+            </div>
+
+            <h2>Diversion</h2>
+            <button class="btn" id="btn-chaos" style="border-color:var(--neon-pink); color:var(--neon-pink);"> CHAOS BUTTON</button>
+            <label style="display: block; font-size: 0.8rem; color: var(--neon-blue); margin-bottom: 10px; cursor: pointer;">
+                <input type="checkbox" id="toggle-theremin" style="accent-color: var(--neon-blue);">  Enable Mouse Theremin
+            </label>
+
+            <h2>Synth FX Knobs</h2>
+            <div class="control-row">
+                <span>PITCH WOBBLE</span>
+                <input type="range" id="fx-pitch" min="0.5" max="2" step="0.01" value="1">
+            </div>
+            <div class="control-row">
+                <span>CYBER FUZZ</span>
+                <input type="range" id="fx-distort" min="0" max="50" step="1" value="0">
+            </div>
+            <div class="control-row">
+                <span>PARTICLES</span>
+                <input type="range" id="fx-particles" min="10" max="150" step="5" value="35">
+            </div>
+
+            <h2>Design </h2>
             <select class="select-style" id="style-select">
-                <option value="classic">💾 Classic Retro Neon</option>
-                <option value="space">🚀 Hyperspace Voyage</option>
-                <option value="diamond">💎 Diamond Prism Mirror</option>
+                <option value="classic"> Classic Retro Neon</option>
+                <option value="space"> Hyperspace design</option>
+                <option value="diamond"> Diamond Prism </option>
             </select>
 
             <h2>Tape Deck</h2>
             <div class="tape-deck">
-                <button class="btn btn-rec" id="deck-rec">● REC</button>
-                <button class="btn" id="deck-stop" style="border-color:var(--neon-yellow); color:var(--neon-yellow); text-shadow:0 0 5px var(--neon-yellow);">■ STOP</button>
+                <button class="btn btn-rec" id="deck-rec"> REC</button>
+                <button class="btn" id="deck-stop" style="border-color:var(--neon-yellow); color:var(--neon-yellow);"> STOP</button>
             </div>
-            <button class="btn" id="deck-play" style="border-color:var(--neon-green); color:var(--neon-green); text-shadow:0 0 5px var(--neon-green);">▶ PLAY TAPE</button>
-            <div id="tape-status" style="font-size:0.75rem; color:#888; text-align:center; margin-bottom:10px;">Tape Empty</div>
+            <button class="btn" id="deck-play" style="border-color:var(--neon-green); color:var(--neon-green);"> PLAY TAPE</button>
+            <div id="tape-status" style="font-size:0.75rem; color:#d603cc; text-align:center; margin-bottom:10px;">Tape Empty</div>
 
             <h2>Live System Log</h2>
             <div id="recording-log">
-                <div class="log-item" style="color:#555;">No records tracked yet...</div>
+                <div class="log-item" style="color: #ce0692dc;">Waiting for input...</div>
             </div>
 
-            <h2>Utilities</h2>
-            <button class="btn" id="btn-announce">🔊 Read Recipe</button>
-            <button class="btn" id="btn-clear">🧹 Clear Bench</button>
+            <button class="btn" id="btn-announce" style="margin-top:10px;"> Read Recipe</button>
+            <button class="btn" id="btn-clear"> Clear Bench</button>
         </aside>
 
         <main class="main-stage">
-            <div id="current-recipe-display">Choose a Dimension or tap number keys (1-8) to cook...</div>
+            <div id="current-recipe-display">Booting up... Tap number keys (1-8) to cook.</div>
             <div class="instrument-rack" id="rack"></div>
         </main>
     </div>
 
     <div class="sequencer-panel" id="bottom-sequencer">
         <div class="seq-controls">
-            <button class="btn" id="btn-play-drums" style="width: auto; margin:0;">▶ Play Drum Loop</button>
+            <button class="btn" id="btn-play-drums" style="width: auto; margin:0;"> Play Drum Loop</button>
             <label style="color:var(--neon-blue); font-size:0.9rem;">BPM: <input type="number" id="bpm-val" class="bpm-input" value="120"></label>
         </div>
         <div class="seq-row" id="row-kick"><div class="seq-label">KICK</div></div>
@@ -217,7 +263,9 @@
     </div>
 
     <script>
-        // CONFIG MASTER DATA DATASET
+        console.log("%c Welcome to the Stardance Console, hacker.", "color: #00f3ff; font-size: 20px; font-weight: bold;");
+        console.log("If you are reading this, yes, my code is messy. I accept PRs.");
+
         const CHORDS = [
             { note: 'C Maj', freqs: [130.81, 164.81, 196.00], ingredient: 'Neon Noodles' },
             { note: 'D Maj', freqs: [146.83, 185.00, 220.00], ingredient: 'Cosmic Cheese' },
@@ -229,7 +277,6 @@
             { note: 'C Maj 2', freqs: [261.63, 329.63, 392.00], ingredient: 'Electric Egg' }
         ];
 
-        // Core reality colors configured mapped dynamically
         const CONFIGS = {
             classic: {
                 barColors: ['#ff0055','#ff5500','#ffcc00','#33ff00','#00ccff','#0055ff','#aa00ff','#ff00cc'],
@@ -250,88 +297,78 @@
 
         const VERBS = ["whisked with", "marinated in", "blasted with", "glazed in", "fused with"];
         
-        let audioCtx, masterGain;
+        let audioCtx, masterGain, distortionNode;
         let recipeItems = [];
         let cleanRecipeText = "";
         let currentDimension = "classic";
         const activeChordOscillators = new Map();
-
-        let isRecording = false;
-        let isPlayingTape = false;
-        let recordStartTime = 0;
-        let recordedEvents = []; 
-        let tapePlaybackTimers = [];
+        let isRecording = false, isPlayingTape = false, recordStartTime = 0, recordedEvents = [], tapePlaybackTimers = [];
+        let challengeSequence = [], challengeProgress = 0;
 
         function closeGuide() {
             document.getElementById('welcome-guide').style.opacity = '0';
             setTimeout(() => document.getElementById('welcome-guide').remove(), 300);
+            initAudio();
+        }
+
+        function makeDistortionCurve(amount) {
+            let k = typeof amount === 'number' ? amount : 50, n_samples = 44100, curve = new Float32Array(n_samples), deg = Math.PI / 180, i = 0, x;
+            for ( ; i < n_samples; ++i ) { x = (i * 2) / n_samples - 1; curve[i] = ( (3 + k) * x * 20 * deg ) / ( Math.PI + k * Math.abs(x) ); }
+            return curve;
         }
 
         function initAudio() {
             if(!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                masterGain = audioCtx.createGain();
-                masterGain.gain.value = 0.4;
-                masterGain.connect(audioCtx.destination);
+                masterGain = audioCtx.createGain(); masterGain.gain.value = 0.4;
+                distortionNode = audioCtx.createWaveShaper(); distortionNode.curve = makeDistortionCurve(0); distortionNode.oversample = '4x';
+                distortionNode.connect(masterGain); masterGain.connect(audioCtx.destination);
             }
         }
 
         function addLogEntry(text, itemColor = "var(--neon-blue)") {
             const container = document.getElementById('recording-log');
-            if (recordedEvents.length === 1 && text.includes('Played')) container.innerHTML = '';
-            
-            const div = document.createElement('div');
-            div.classList.add('log-item');
-            div.style.color = itemColor;
-            div.innerText = text;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            const div = document.createElement('div'); div.classList.add('log-item');
+            div.style.color = itemColor; div.innerText = text;
+            container.appendChild(div); container.scrollTop = container.scrollHeight;
         }
 
+        document.getElementById('fx-distort').oninput = (e) => {
+            initAudio(); const val = parseInt(e.target.value);
+            if(distortionNode) distortionNode.curve = val === 0 ? null : makeDistortionCurve(val);
+        };
+
         function startChord(index) {
-            initAudio();
-            if(audioCtx.state === 'suspended') audioCtx.resume();
+            initAudio(); if(audioCtx.state === 'suspended') audioCtx.resume();
             if(activeChordOscillators.has(index)) stopChord(index);
 
-            const chordData = CHORDS[index];
-            const oscGroup = [];
+            const chordData = CHORDS[index]; const oscGroup = [];
+            const globalPitchMultiplier = parseFloat(document.getElementById('fx-pitch').value);
 
-            // Audio generation nodes routing
             chordData.freqs.forEach(freq => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
                 osc.type = currentDimension === 'diamond' ? 'triangle' : 'sine';
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(freq * globalPitchMultiplier, audioCtx.currentTime);
                 gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                osc.connect(gain); gain.connect(masterGain);
-                osc.start();
-                oscGroup.push({ osc, gain });
+                osc.connect(distortionNode); gain.connect(masterGain);
+                osc.start(); oscGroup.push({ osc, gain });
             });
-
             activeChordOscillators.set(index, oscGroup);
-            
-            // Pulse visual background center with matching palette bar color
-            const matchColor = CONFIGS[currentDimension].barColors[index];
-            Viz.setBaseColor(matchColor);
+            Viz.setBaseColor(CONFIGS[currentDimension].barColors[index]);
 
             if(isRecording) {
                 const ms = Math.floor(performance.now() - recordStartTime);
                 recordedEvents.push({ type: 'chord-start', index: index, time: ms });
-                addLogEntry(`[${ms}ms] Key ${index+1} Hit (${chordData.note})`, matchColor);
+                addLogEntry(`[${ms}ms] Key ${index+1} Hit`, CONFIGS[currentDimension].barColors[index]);
             }
+            checkChallengeInput(index);
         }
 
         function stopChord(index) {
             const oscGroup = activeChordOscillators.get(index);
             if(oscGroup) {
-                oscGroup.forEach(({ osc, gain }) => {
-                    gain.gain.cancelScheduledValues(audioCtx.currentTime);
-                    gain.gain.setValueAtTime(gain.gain.value, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                    osc.stop(audioCtx.currentTime + 0.3);
-                });
+                oscGroup.forEach(({ osc, gain }) => { try { osc.stop(); } catch(e){} });
                 activeChordOscillators.delete(index);
-
                 if(isRecording) {
                     const ms = Math.floor(performance.now() - recordStartTime);
                     recordedEvents.push({ type: 'chord-stop', index: index, time: ms });
@@ -340,20 +377,16 @@
         }
 
         function playDrum(type, externalTrigger = false) {
-            initAudio();
-            const time = audioCtx.currentTime;
-
+            initAudio(); const time = audioCtx.currentTime;
             if(isRecording && !externalTrigger) {
                 const ms = Math.floor(performance.now() - recordStartTime);
                 recordedEvents.push({ type: 'drum', drumType: type, time: ms });
-                addLogEntry(`[${ms}ms] Beat triggered: ${type.toUpperCase()}`, 'var(--neon-pink)');
             }
-
             if (type === 'kick') {
                 const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
                 osc.frequency.setValueAtTime(120, time); osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.3);
                 gain.gain.setValueAtTime(1.2, time); gain.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + 0.3);
+                osc.connect(distortionNode); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + 0.3);
             } else if (type === 'snare') {
                 const bufferSize = audioCtx.sampleRate * 0.15; const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
                 const data = buffer.getChannelData(0); for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
@@ -367,237 +400,174 @@
             }
         }
 
-        const recBtn = document.getElementById('deck-rec');
-        const stopBtn = document.getElementById('deck-stop');
-        const playBtn = document.getElementById('deck-play');
-        const statusText = document.getElementById('tape-status');
-
-        recBtn.onclick = () => {
-            if(isPlayingTape) stopTapePlayback();
-            initAudio();
-            isRecording = true;
-            recordedEvents = []; 
-            document.getElementById('recording-log').innerHTML = ''; 
-            recordStartTime = performance.now();
+        document.getElementById('btn-chaos').onclick = () => {
+            addLogEntry(" CHAOS INITIATED", "var(--neon-pink)");
+            ['kick', 'snare', 'hihat'].forEach(drum => {
+                for(let i=0; i<16; i++) {
+                    const shouldHit = Math.random() > 0.7; // 30% chance to place a beat
+                    seqState[drum][i] = shouldHit;
+                    const stepEl = document.getElementById(`row-${drum}`).children[i+1];
+                    if(shouldHit) stepEl.classList.add('active'); else stepEl.classList.remove('active');
+                }
+            });
+            const randBpm = Math.floor(Math.random() * 100) + 80;
+            const randFuzz = Math.floor(Math.random() * 50);
+            document.getElementById('bpm-val').value = randBpm;
+            document.getElementById('fx-distort').value = randFuzz;
+            document.getElementById('fx-distort').dispatchEvent(new Event('input'));
+            Viz.triggerExplosion();
             
-            recBtn.classList.add('active');
-            statusText.innerText = "🔴 RECORDING...";
-            statusText.style.color = "var(--neon-pink)";
+            if(!isPlayingDrums) document.getElementById('btn-play-drums').click();
         };
 
-        stopBtn.onclick = () => {
-            if(isRecording) {
-                isRecording = false;
-                recBtn.classList.remove('active');
-                statusText.innerText = `Tape: ${recordedEvents.length} Events Saved`;
-                statusText.style.color = "var(--neon-yellow)";
+        document.addEventListener('mousemove', (e) => {
+            const isTheremin = document.getElementById('toggle-theremin').checked;
+            if(!isTheremin) return;
+            const ratioX = e.clientX / window.innerWidth;
+            const newPitch = 0.5 + (ratioX * 1.5);
+            document.getElementById('fx-pitch').value = newPitch.toFixed(2);
+        });
+
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    addLogEntry(" RAVE MODE UNLOCKED ", "#fff");
+                    setInterval(() => { Viz.setBaseColor('#' + Math.floor(Math.random()*16777215).toString(16)); }, 100);
+                    document.getElementById('fx-particles').value = 200;
+                    document.getElementById('fx-particles').dispatchEvent(new Event('input'));
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0; // reset if they mess up
             }
+        });
+
+        document.getElementById('deck-rec').onclick = (e) => {
+            if(isPlayingTape) stopTapePlayback(); initAudio(); isRecording = true; recordedEvents = []; 
+            document.getElementById('recording-log').innerHTML = ''; recordStartTime = performance.now();
+            e.target.classList.add('active'); document.getElementById('tape-status').innerText = " RECORDING...";
+        };
+        document.getElementById('deck-stop').onclick = () => {
+            isRecording = false; document.getElementById('deck-rec').classList.remove('active');
+            document.getElementById('tape-status').innerText = `Tape: ${recordedEvents.length} Events`;
             if(isPlayingTape) stopTapePlayback();
         };
-
-        playBtn.onclick = () => {
-            if(recordedEvents.length === 0) return alert("Record a mix tracking loop first!");
-            if(isRecording) return;
-            
-            stopTapePlayback(); 
-            isPlayingTape = true;
-            statusText.innerText = "▶ PLAYING BACK TAPE...";
-            statusText.style.color = "var(--neon-green)";
-
+        document.getElementById('deck-play').onclick = () => {
+            if(recordedEvents.length === 0 || isRecording) return; stopTapePlayback(); isPlayingTape = true;
+            document.getElementById('tape-status').innerText = " PLAYING BACK...";
             recordedEvents.forEach(evt => {
                 const timer = setTimeout(() => {
-                    if(evt.type === 'chord-start') {
-                        const targetKey = rack.children[evt.index];
-                        const rect = targetKey.getBoundingClientRect();
-                        handleKeyStart(evt.index, {clientX: rect.left + 30, clientY: rect.top});
-                    } else if (evt.type === 'chord-stop') {
-                        handleKeyStop(evt.index);
-                    } else if (evt.type === 'drum') {
-                        playDrum(evt.drumType, true);
-                    }
+                    if(evt.type === 'chord-start') handleKeyStart(evt.index, {clientX: 0, clientY: 0});
+                    else if (evt.type === 'chord-stop') handleKeyStop(evt.index);
+                    else if (evt.type === 'drum') playDrum(evt.drumType, true);
                 }, evt.time);
                 tapePlaybackTimers.push(timer);
             });
-
             const totalDuration = recordedEvents[recordedEvents.length - 1].time + 1000;
-            const endTimer = setTimeout(() => {
-                statusText.innerText = "Tape Finished Running";
-                statusText.style.color = "#888";
-                isPlayingTape = false;
-            }, totalDuration);
-            tapePlaybackTimers.push(endTimer);
+            tapePlaybackTimers.push(setTimeout(() => { isPlayingTape = false; document.getElementById('tape-status').innerText = "Done"; }, totalDuration));
         };
+        function stopTapePlayback() { isPlayingTape = false; tapePlaybackTimers.forEach(clearTimeout); tapePlaybackTimers = []; for(let i=0; i<8; i++) handleKeyStop(i); }
 
-        function stopTapePlayback() {
-            isPlayingTape = false;
-            tapePlaybackTimers.forEach(clearTimeout);
-            tapePlaybackTimers = [];
-            for(let i=0; i<8; i++) handleKeyStop(i);
-            statusText.innerText = "Playback Stopped";
-            statusText.style.color = "#888";
-        }
-
-        // --- FULL SYSTEM DYNAMIC REALITY TRANSFORMATION ENGINE ---
         function changeDimension(dimensionName) {
-            currentDimension = dimensionName;
-            const cfg = CONFIGS[dimensionName];
-            const root = document.documentElement;
-
-            // Update custom core styles layout system properties
-            root.style.setProperty('--key-border-radius', cfg.radius);
-            root.style.setProperty('--key-skew', cfg.skew);
-            root.style.setProperty('--key-border', cfg.keyBorder);
-            root.style.setProperty('--neon-blue', cfg.accent);
-            root.style.setProperty('--panel-border', cfg.border);
-
-            // Redefine container panel aesthetics dynamically
-            const sidePanel = document.getElementById('sidebar-panel');
-            const bottomSeq = document.getElementById('bottom-sequencer');
-            const recipeDisp = document.getElementById('current-recipe-display');
-
+            currentDimension = dimensionName; const cfg = CONFIGS[dimensionName]; const root = document.documentElement;
+            root.style.setProperty('--key-border-radius', cfg.radius); root.style.setProperty('--key-skew', cfg.skew);
+            root.style.setProperty('--key-border', cfg.keyBorder); root.style.setProperty('--neon-blue', cfg.accent); root.style.setProperty('--panel-border', cfg.border);
+            const sidePanel = document.getElementById('sidebar-panel'); const bottomSeq = document.getElementById('bottom-sequencer');
+            
             if(dimensionName === 'space') {
-                sidePanel.style.background = 'rgba(0, 5, 20, 0.95)';
-                bottomSeq.style.background = 'rgba(0, 5, 20, 0.95)';
-                recipeDisp.style.borderColor = '#00ffff';
-                recipeDisp.style.color = '#00ffff';
+                sidePanel.style.background = 'rgba(0, 5, 20, 0.95)'; bottomSeq.style.background = 'rgba(0, 5, 20, 0.95)';
                 document.getElementById('visualizer-canvas').style.filter = `blur(${cfg.particleBlur}) contrast(2)`;
             } else if (dimensionName === 'diamond') {
-                sidePanel.style.background = 'rgba(30, 20, 30, 0.9)';
-                bottomSeq.style.background = 'rgba(30, 20, 30, 0.9)';
-                recipeDisp.style.borderColor = '#ff007c';
-                recipeDisp.style.color = '#ffffff';
+                sidePanel.style.background = 'rgba(30, 20, 30, 0.9)'; bottomSeq.style.background = 'rgba(30, 20, 30, 0.9)';
                 document.getElementById('visualizer-canvas').style.filter = `blur(${cfg.particleBlur}) contrast(20)`;
             } else {
-                sidePanel.style.background = 'rgba(12, 6, 20, 0.85)';
-                bottomSeq.style.background = 'rgba(12, 6, 20, 0.85)';
-                recipeDisp.style.borderColor = 'var(--neon-yellow)';
-                recipeDisp.style.color = 'var(--neon-yellow)';
+                sidePanel.style.background = 'rgba(12, 6, 20, 0.85)'; bottomSeq.style.background = 'rgba(12, 6, 20, 0.85)';
                 document.getElementById('visualizer-canvas').style.filter = `blur(${cfg.particleBlur}) contrast(15)`;
             }
-
-            // Remap individual bar node colors instantly 
-            const keys = document.querySelectorAll('.key');
-            keys.forEach((key, idx) => {
-                key.style.backgroundColor = cfg.barColors[idx];
-            });
-
-            if(isRecording) {
-                const ms = Math.floor(performance.now() - recordStartTime);
-                addLogEntry(`[${ms}ms] Shifted to Reality: ${dimensionName.toUpperCase()}`, cfg.accent);
-            }
+            document.querySelectorAll('.key').forEach((key, idx) => key.style.backgroundColor = cfg.barColors[idx]);
+            updateRecipeDisplay();
         }
+        document.getElementById('style-select').onchange = (e) => changeDimension(e.target.value);
 
-        document.getElementById('style-select').onchange = (e) => {
-            changeDimension(e.target.value);
-        };
-
-        // --- BACKGROUND ADVANCED PROCEDURAL GEOMETRY SYSTEM ---
         const Viz = (() => {
             const canvas = document.getElementById('visualizer-canvas'); const ctx = canvas.getContext('2d');
             let w, h; let particles = []; let baseColorR = 157, baseColorG = 0, baseColorB = 255;
             function setSize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
             window.addEventListener('resize', setSize); setSize();
-
             class Particle {
                 constructor() { this.reset(); }
-                reset() {
-                    this.x = Math.random() * w; 
-                    this.y = Math.random() * h; 
-                    this.vx = Math.random() * 2 - 1; 
-                    this.vy = Math.random() * 2 - 1; 
-                    this.size = Math.random() * 60 + 15;
-                }
+                reset() { this.x = Math.random() * w; this.y = Math.random() * h; this.vx = Math.random() * 2 - 1; this.vy = Math.random() * 2 - 1; this.size = Math.random() * 60 + 15; }
                 update() {
-                    const speedMultiplier = CONFIGS[currentDimension].particleSpeed;
-                    this.x += this.vx * speedMultiplier; 
-                    this.y += this.vy * speedMultiplier; 
-                    
-                    // Boundary control checks
-                    if(this.x < -100 || this.x > w + 100 || this.y < -100 || this.y > h + 100) {
-                        this.reset();
-                    }
+                    const mult = CONFIGS[currentDimension].particleSpeed; this.x += this.vx * mult; this.y += this.vy * mult; 
+                    if(this.x < -100 || this.x > w + 100 || this.y < -100 || this.y > h + 100) this.reset();
                 }
                 draw() {
-                    ctx.beginPath();
-                    ctx.fillStyle = `rgb(${baseColorR}, ${baseColorG}, ${baseColorB})`;
-                    const mode = CONFIGS[currentDimension].particleShape;
-
-                    if (mode === 'star') {
-                        // Fast particle stardust matrix engine mapping
-                        ctx.arc(this.x, this.y, this.size * 0.15, 0, Math.PI * 2);
-                        ctx.fillStyle = '#ffffff';
-                    } else if (mode === 'crystal') {
-                        // Geometrical diamond prism polygon generation
-                        ctx.rect(this.x, this.y, this.size, this.size);
-                    } else {
-                        // Standard fluid dynamic color blotches
-                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    }
+                    ctx.beginPath(); ctx.fillStyle = `rgb(${baseColorR}, ${baseColorG}, ${baseColorB})`;
+                    const m = CONFIGS[currentDimension].particleShape;
+                    if (m === 'star') { ctx.arc(this.x, this.y, this.size * 0.15, 0, Math.PI * 2); ctx.fillStyle = '#ffffff'; }
+                    else if (m === 'crystal') { ctx.rect(this.x, this.y, this.size, this.size); }
+                    else { ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); }
                     ctx.fill();
                 }
             }
-            
+            document.getElementById('fx-particles').oninput = (e) => {
+                const target = parseInt(e.target.value);
+                if(particles.length < target) { while(particles.length < target) particles.push(new Particle()); } 
+                else if(particles.length > target) { particles.splice(target); }
+            };
             for(let i=0; i<35; i++) particles.push(new Particle());
-            
             function setBaseColor(hex) {
                 const r = parseInt(hex.slice(1, 3), 16); const g = parseInt(hex.slice(3, 5), 16); const b = parseInt(hex.slice(5, 7), 16);
                 baseColorR = Math.floor((baseColorR + r) / 2); baseColorG = Math.floor((baseColorG + g) / 2); baseColorB = Math.floor((baseColorB + b) / 2);
             }
-            
             function animate() { 
                 ctx.fillStyle = currentDimension === 'space' ? 'rgba(0,0,5,0.2)' : 'rgba(7,2,11,1)';
                 if(currentDimension !== 'space') ctx.clearRect(0,0,w,h); else ctx.fillRect(0, 0, w, h);
-                particles.forEach(p => { p.update(); p.draw(); }); 
-                requestAnimationFrame(animate); 
+                particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); 
             }
             animate();
-            return { setBaseColor };
+            return { setBaseColor, triggerExplosion: () => {
+                particles.forEach(p => { p.vx *= 5; p.vy *= 5; p.size *= 1.5; });
+                setTimeout(() => { particles.forEach(p => p.reset()); }, 1200);
+            }};
         })();
 
-        // --- SEQUENCER BEAT DRUM BLOCK WRAPPER ---
         const seqState = { kick: Array(16).fill(false), snare: Array(16).fill(false), hihat: Array(16).fill(false) };
         let isPlayingDrums = false; let currentStep = 0; let loopTimer;
-
-        function buildSequencer() {
-            ['kick', 'snare', 'hihat'].forEach(drum => {
-                const row = document.getElementById(`row-${drum}`);
-                for(let i=0; i<16; i++) {
-                    const step = document.createElement('div'); step.classList.add('step');
-                    if(drum==='kick') step.style.borderColor = 'var(--neon-pink)';
-                    if(drum==='snare') step.style.borderColor = 'var(--neon-blue)';
-                    if(drum==='hihat') step.style.borderColor = 'var(--neon-yellow)';
-                    step.onclick = () => { seqState[drum][i] = !seqState[drum][i]; step.classList.toggle('active'); };
-                    row.appendChild(step);
-                }
-            });
-        }
-        buildSequencer();
-
+        ['kick', 'snare', 'hihat'].forEach(drum => {
+            const row = document.getElementById(`row-${drum}`);
+            for(let i=0; i<16; i++) {
+                const step = document.createElement('div'); step.classList.add('step');
+                if(drum==='kick') step.style.borderColor = 'var(--neon-pink)';
+                if(drum==='snare') step.style.borderColor = 'var(--neon-blue)';
+                if(drum==='hihat') step.style.borderColor = 'var(--neon-yellow)';
+                step.onclick = () => { seqState[drum][i] = !seqState[drum][i]; step.classList.toggle('active'); };
+                row.appendChild(step);
+            }
+        });
         document.getElementById('btn-play-drums').onclick = (e) => {
             initAudio(); isPlayingDrums = !isPlayingDrums;
-            e.target.innerText = isPlayingDrums ? "⏹ Stop Drum Loop" : "▶ Play Drum Loop";
-            e.target.style.color = isPlayingDrums ? "var(--neon-pink)" : "var(--neon-blue)";
+            e.target.innerText = isPlayingDrums ? " Stop Drum Loop" : " Play Drum Loop";
             if(isPlayingDrums) runSequencer(); else clearTimeout(loopTimer);
         };
-
         function runSequencer() {
             const bpm = document.getElementById('bpm-val').value; const stepTime = (60 / bpm) / 4 * 1000; 
             document.querySelectorAll('.step').forEach(s => s.classList.remove('playing'));
             ['kick', 'snare', 'hihat'].forEach(drum => {
                 const stepEl = document.getElementById(`row-${drum}`).children[currentStep + 1];
-                stepEl.classList.add('playing');
+                if(stepEl) stepEl.classList.add('playing');
                 if(seqState[drum][currentStep]) playDrum(drum);
             });
             currentStep = (currentStep + 1) % 16; loopTimer = setTimeout(runSequencer, stepTime);
         }
 
-        // --- PHYSICAL INSTRUMENT ATTACHMENT SETUP ---
         const rack = document.getElementById('rack');
         CHORDS.forEach((c, idx) => {
             const key = document.createElement('div'); key.classList.add('key');
-            // Height setting logic mapped configuration
-            key.style.height = (240 - (idx * 10)) + 'px'; 
-            key.dataset.note = c.note;
+            key.style.height = (240 - (idx * 10)) + 'px'; key.dataset.note = c.note;
             key.addEventListener('mousedown', (e) => handleKeyStart(idx, e));
             key.addEventListener('mouseup', () => handleKeyStop(idx));
             key.addEventListener('mouseleave', () => handleKeyStop(idx));
@@ -607,57 +577,72 @@
         const keyboardActive = Array(8).fill(false);
         document.addEventListener('keydown', (e) => {
             if(e.repeat) return; const idx = ['1','2','3','4','5','6','7','8'].indexOf(e.key);
-            if(idx > -1 && !keyboardActive[idx]) {
-                keyboardActive[idx] = true; const rect = rack.children[idx].getBoundingClientRect();
-                handleKeyStart(idx, {clientX: rect.left + 30, clientY: rect.top});
-            }
+            if(idx > -1 && !keyboardActive[idx]) { keyboardActive[idx] = true; const rect = rack.children[idx].getBoundingClientRect(); handleKeyStart(idx, {clientX: rect.left + 30, clientY: rect.top}); }
         });
-        document.addEventListener('keyup', (e) => {
-            const idx = ['1','2','3','4','5','6','7','8'].indexOf(e.key);
-            if(idx > -1) { keyboardActive[idx] = false; handleKeyStop(idx); }
-        });
+        document.addEventListener('keyup', (e) => { const idx = ['1','2','3','4','5','6','7','8'].indexOf(e.key); if(idx > -1) { keyboardActive[idx] = false; handleKeyStop(idx); }});
 
         function handleKeyStart(idx, event) {
-            const data = CHORDS[idx];
-            startChord(idx);
-            if(rack.children[idx]) rack.children[idx].classList.add('hit');
-
-            const textEl = document.createElement('div');
-            textEl.style.position = 'absolute'; 
-            textEl.style.color = CONFIGS[currentDimension].barColors[idx]; 
-            textEl.style.fontWeight = 'bold'; textEl.style.fontSize = '1.3rem'; textEl.style.textShadow = '0 0 5px black'; textEl.style.pointerEvents = 'none'; zIndex = "500";
-            textEl.innerText = data.ingredient; textEl.style.left = event.clientX + 'px'; textEl.style.top = event.clientY - 30 + 'px';
-            document.body.appendChild(textEl);
-            textEl.animate([ { opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-100px)' } ], { duration: 1500, easing: 'ease-out', fill: 'forwards' });
-            setTimeout(() => textEl.remove(), 1500);
-
+            const data = CHORDS[idx]; startChord(idx); if(rack.children[idx]) rack.children[idx].classList.add('hit');
+            if(event.clientX !== 0) { // skip floating text if it's from the tape deck playback
+                const textEl = document.createElement('div');
+                textEl.style.position = 'absolute'; textEl.style.color = CONFIGS[currentDimension].barColors[idx]; 
+                textEl.style.fontWeight = 'bold'; textEl.style.fontSize = '1.3rem'; textEl.style.textShadow = '0 0 5px black'; textEl.style.pointerEvents = 'none'; textEl.style.zIndex = "500";
+                textEl.innerText = data.ingredient; textEl.style.left = event.clientX + 'px'; textEl.style.top = event.clientY - 30 + 'px';
+                document.body.appendChild(textEl);
+                textEl.animate([ { opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-100px)' } ], { duration: 1500, easing: 'ease-out', fill: 'forwards' });
+                setTimeout(() => textEl.remove(), 1500);
+            }
             if(recipeItems[recipeItems.length-1] !== data.ingredient) { recipeItems.push(data.ingredient); updateRecipeDisplay(); }
         }
-
-        function handleKeyStop(idx) {
-            stopChord(idx); if(rack.children[idx]) rack.children[idx].classList.remove('hit');
-        }
+        function handleKeyStop(idx) { stopChord(idx); if(rack.children[idx]) rack.children[idx].classList.remove('hit'); }
 
         function updateRecipeDisplay() {
-            if(recipeItems.length === 0) return;
-            let str = `Base of <strong>${recipeItems[0]}</strong>`; cleanRecipeText = recipeItems[0];
-            for(let i=1; i<recipeItems.length; i++) {
-                if(i > 8) { str += "...and an explosion of cosmic elements."; break; }
-                str += `, ${VERBS[i % VERBS.length]} <strong>${recipeItems[i]}</strong>`; cleanRecipeText += `, ${VERBS[i % VERBS.length]} ${recipeItems[i]}`;
+            const display = document.getElementById('current-recipe-display'); const rCtx = document.getElementById('recipe-canvas').getContext('2d');
+            rCtx.clearRect(0, 0, 120, 120);
+            if(recipeItems.length === 0) { display.innerText = "Waiting for ingredients... tap 1-8."; cleanRecipeText = ""; return; }
+            let str = recipeItems[0];
+            for(let i=1; i<recipeItems.length; i++) str += " " + VERBS[(i-1) % VERBS.length] + " " + recipeItems[i];
+            cleanRecipeText = "Recipe: " + str + "."; display.innerText = cleanRecipeText;
+            rCtx.translate(60, 60); 
+            recipeItems.forEach((item, index) => {
+                const length = item.length * 2; const colorRot = (index * 45) % 360;
+                rCtx.rotate((Math.PI * 2) / recipeItems.length + index); rCtx.beginPath();
+                if (index % 2 === 0) { rCtx.strokeStyle = `hsla(${colorRot}, 100%, 60%, 0.8)`; rCtx.lineWidth = 2; rCtx.rect(-length/2, -length/2, length, length); } 
+                else { rCtx.strokeStyle = `hsla(${colorRot + 120}, 100%, 50%, 0.9)`; rCtx.lineWidth = 1.5; rCtx.arc(0, 0, length / 1.5, 0, Math.PI * 2); }
+                rCtx.stroke(); rCtx.fillStyle = '#ffffff'; rCtx.beginPath(); rCtx.arc(length/2, 0, 3, 0, Math.PI * 2); rCtx.fill();
+            });
+            rCtx.setTransform(1, 0, 0, 1, 0, 0); 
+        }
+
+        function generateNewChallenge() {
+            challengeSequence = []; challengeProgress = 0;
+            for(let i=0; i<3; i++) challengeSequence.push(Math.floor(Math.random() * 8));
+            document.getElementById('challenge-target').innerText = `KEYS: ${challengeSequence.map(idx => idx + 1).join(" ➔ ")}`;
+            document.getElementById('challenge-status').innerText = `Progress: 0%`; document.getElementById('challenge-status').style.color = "var(--neon-blue)";
+        }
+        function checkChallengeInput(keyIndex) {
+            if(challengeSequence.length === 0) return;
+            if(keyIndex === challengeSequence[challengeProgress]) {
+                challengeProgress++;
+                document.getElementById('challenge-status').innerText = `Progress: ${Math.floor((challengeProgress / challengeSequence.length) * 100)}%`;
+                if(challengeProgress === challengeSequence.length) {
+                    document.getElementById('challenge-status').innerText = " COMBO UNLOCKED!"; document.getElementById('challenge-status').style.color = "var(--neon-green)";
+                    Viz.triggerExplosion(); addLogEntry(" CHALLENGE CLEARED! ", "var(--neon-green)");
+                    setTimeout(generateNewChallenge, 2000);
+                }
+            } else {
+                challengeProgress = 0; document.getElementById('challenge-status').innerText = `Combo Broken!`; document.getElementById('challenge-status').style.color = "var(--neon-pink)";
             }
-            document.getElementById('current-recipe-display').innerHTML = str;
         }
 
         document.getElementById('btn-announce').onclick = () => {
-            if (!('speechSynthesis' in window) || cleanRecipeText === "") return;
-            window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance("Recipe: " + cleanRecipeText);
-            window.speechSynthesis.speak(utterance);
+            if(!cleanRecipeText) return alert("Nothing to read!");
+            if('speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(cleanRecipeText); u.rate = 1.0; u.pitch = 1.2; window.speechSynthesis.speak(u); } 
+            else alert("Text to speech not supported.");
         };
+        document.getElementById('btn-clear').onclick = () => { recipeItems = []; updateRecipeDisplay(); addLogEntry("🧹 Workbench cleared"); };
 
-        document.getElementById('btn-clear').onclick = () => { recipeItems = []; cleanRecipeText = ""; document.getElementById('current-recipe-display').innerText = "Ready to build."; };
-
-        // INITIALIZE APP DEFAULT DIMENSION
-        changeDimension('classic');
+        changeDimension('classic'); generateNewChallenge();
     </script>
 </body>
-</html>                                    
+</html>
